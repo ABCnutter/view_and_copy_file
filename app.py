@@ -116,9 +116,3 @@ if image_files and label_files:
     # 添加复制按钮
     if col3.button("Copy to Output Folder"):
         copy_to_output(current_image, current_label)
-
-
-
-
-if __name__ == "__main__":
-    main()
