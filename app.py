@@ -28,24 +28,37 @@ if images_folder:
         with ZipFile(images_folder) as z:
             extract_path = Path("uploaded_images")
             z.extractall(extract_path)
-            image_files = sorted([file for file in extract_path.rglob("*") if file.is_file() and file.suffix[1:] in ends])
+            image_files = sorted(
+                [
+                    file
+                    for file in extract_path.rglob("*")
+                    if file.is_file() and file.suffix[1:] in ends
+                ]
+            )
 
 if labels_folder:
     with st.spinner("Extracting labels folder..."):
         with ZipFile(labels_folder) as z:
             extract_path = Path("uploaded_labels")
             z.extractall(extract_path)
-            label_files = sorted([file for file in extract_path.rglob("*") if file.is_file() and file.suffix[1:] in ends])
+            label_files = sorted(
+                [
+                    file
+                    for file in extract_path.rglob("*")
+                    if file.is_file() and file.suffix[1:] in ends
+                ]
+            )
 
 # Streamlit session_state
 if "current_index" not in st.session_state:
     st.session_state.current_index = 0
 
+
 # 修改复制函数
 def copy_to_output(image_path, label_path):
-    if not output_folder or not os.path.exists(output_folder):
-        st.warning("Please provide a valid output folder path.")
-        return
+    # if not output_folder or not os.path.exists(output_folder):
+    #     st.warning("Please provide a valid output folder path.")
+    #     return
 
     # 获取输出图像和标签的文件名
     image_filename = os.path.basename(image_path)
@@ -68,6 +81,7 @@ def copy_to_output(image_path, label_path):
     shutil.copy(label_path, output_label_path)
 
     st.success("Image and label copied to the output folder.")
+
 
 st.title("🤖 Image Label Viewer and Copy 🤖")
 
