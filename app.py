@@ -80,7 +80,7 @@ def copy_to_output(image_path, label_path):
     shutil.copy(image_path, output_image_path)
     shutil.copy(label_path, output_label_path)
 
-    st.success("Image and label copied to the output folder.")
+    st.success(f"Image and label copied to the output folder. Output path: {output_folder}")
 
 
 st.title("🤖 Image Label Viewer and Copy 🤖")
