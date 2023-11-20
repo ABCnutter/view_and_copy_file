@@ -29,7 +29,7 @@ if images_folder:
             image_files = sorted(
                 [
                     file
-                    for file in os.listdir(images_folder)
+                    for file in os.listdir("uploaded_images")
                     if file.lower().split(".")[-1] in ends
                 ]
             )
@@ -41,7 +41,7 @@ if labels_folder:
             label_files = sorted(
                 [
                     file
-                    for file in os.listdir(labels_folder)
+                    for file in os.listdir("uploaded_labels")
                     if file.lower().split(".")[-1] in ends
                 ]
             )
