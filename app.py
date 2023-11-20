@@ -12,8 +12,10 @@ st.set_page_config(
 st.sidebar.title("Configuration")
 
 # 文件夹路径
-images_folder = st.sidebar.text_input("Enter Images Folder Path", "path/to/images")
-labels_folder = st.sidebar.text_input("Enter Labels Folder Path", "path/to/labels")
+# images_folder = st.sidebar.text_input("Enter Images Folder Path", "path/to/images")
+# labels_folder = st.sidebar.text_input("Enter Labels Folder Path", "path/to/labels")
+images_folder = st.sidebar.file_uploader("Upload Images Folder", type=["zip"])
+labels_folder = st.sidebar.file_uploader("Upload Labels Folder", type=["zip"])
 output_folder = st.sidebar.text_input("Enter Output Folder Path", "output")
 
 ends = ["tif", "jpg", "png"]
