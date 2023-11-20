@@ -1,9 +1,9 @@
+from PIL import Image
 import streamlit as st
 import os
 import shutil
 from zipfile import ZipFile
-from PIL import Image
-import tempfile
+from pathlib import Path
 
 # Streamlit 页面配置
 st.set_page_config(
@@ -26,26 +26,26 @@ ends = ["tif", "jpg", "png"]
 if images_folder:
     with st.spinner("Extracting images folder..."):
         with ZipFile(images_folder) as z:
-            extract_path = tempfile.mkdtemp()
+            extract_path = Path("uploaded_images")
             z.extractall(extract_path)
             image_files = sorted(
                 [
                     file
-                    for file in os.listdir(extract_path)
-                    if file.lower().split(".")[-1] in ends
+                    for file in extract_path.rglob("*")
+                    if file.is_file() and file.suffix[1:] in ends
                 ]
             )
 
 if labels_folder:
     with st.spinner("Extracting labels folder..."):
         with ZipFile(labels_folder) as z:
-            extract_path = tempfile.mkdtemp()
+            extract_path = Path("uploaded_labels")
             z.extractall(extract_path)
             label_files = sorted(
                 [
                     file
-                    for file in os.listdir(extract_path)
-                    if file.lower().split(".")[-1] in ends
+                    for file in extract_path.rglob("*")
+                    if file.is_file() and file.suffix[1:] in ends
                 ]
             )
 
@@ -53,11 +53,12 @@ if labels_folder:
 if "current_index" not in st.session_state:
     st.session_state.current_index = 0
 
+
 # 修改复制函数
 def copy_to_output(image_path, label_path):
-    if not output_folder or not os.path.exists(output_folder):
-        st.warning("Please provide a valid output folder path.")
-        return
+    # if not output_folder or not os.path.exists(output_folder):
+    #     st.warning("Please provide a valid output folder path.")
+    #     return
 
     # 获取输出图像和标签的文件名
     image_filename = os.path.basename(image_path)
@@ -81,16 +82,18 @@ def copy_to_output(image_path, label_path):
 
     st.success(f"Image and label copied to the output folder. Output path: {output_folder}")
 
+
 st.title("🤖 Image Label Viewer and Copy 🤖")
 
 # 显示当前图像和标签
 if image_files and label_files:
-    current_image = os.path.join(
-        extract_path, image_files[st.session_state.current_index]
-    )
-    current_label = os.path.join(
-        extract_path, label_files[st.session_state.current_index]
-    )
+    current_image = str(image_files[st.session_state.current_index])
+    current_label = str(label_files[st.session_state.current_index])
+
+    st.write("Image Path:", current_image)
+    st.write("Label Path:", current_label)
+    st.write("Image exists:", os.path.exists(current_image))
+    st.write("Label exists:", os.path.exists(current_label))
     tcol1, tcol2 = st.columns(2)
     # 显示当前文件名和排序位置
     st.write(f"🚀 Current File: {os.path.basename(current_image)}")
