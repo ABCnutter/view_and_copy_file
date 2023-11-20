@@ -51,8 +51,12 @@ if labels_folder:
 if "current_index" not in st.session_state:
     st.session_state.current_index = 0
 
+
 # 修改复制函数
 def copy_to_output(image_path, label_path):
+    if not output_folder or not os.path.exists(output_folder):
+        st.warning("Please provide a valid output folder path.")
+        return
     # 获取输出图像和标签的文件名
     image_filename = os.path.basename(image_path)
     label_filename = os.path.basename(label_path)
@@ -80,12 +84,8 @@ st.title("🤖Image Label Viewer and Copy🤖")
 
 # 显示当前图像和标签
 if image_files and label_files:
-    current_image = os.path.join(
-        "uploaded_images", image_files[st.session_state.current_index]
-    )
-    current_label = os.path.join(
-        "uploaded_labels", label_files[st.session_state.current_index]
-    )
+    current_image = str(image_files[st.session_state.current_index])
+    current_label = str(label_files[st.session_state.current_index])
     tcol1, tcol2 = st.columns(2)
     # 显示当前文件名和排序位置
     st.write(f"🚀Current File: {os.path.basename(current_image)}")
