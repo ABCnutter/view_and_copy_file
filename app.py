@@ -75,6 +75,11 @@ st.title("🤖 Image Label Viewer and Copy 🤖")
 if image_files and label_files:
     current_image = str(image_files[st.session_state.current_index])
     current_label = str(label_files[st.session_state.current_index])
+
+    st.write("Image Path:", current_image)
+    st.write("Label Path:", current_label)
+    st.write("Image exists:", os.path.exists(current_image))
+    st.write("Label exists:", os.path.exists(current_label))
     tcol1, tcol2 = st.columns(2)
     # 显示当前文件名和排序位置
     st.write(f"🚀 Current File: {os.path.basename(current_image)}")
